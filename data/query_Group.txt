@@ -1,0 +1,10 @@
+PREFIX ns: <http://www.semanticweb.org/SEBMAK/ontologies/2022/8/electroSEBMAK#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT *
+WHERE{
+	?Group rdf:type ns:Group;
+	ns:idGroup ?idGroup;
+	ns:nameGroup ?nameGroup;
+    ns:description ?description;
+}

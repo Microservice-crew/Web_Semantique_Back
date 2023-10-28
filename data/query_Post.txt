@@ -1,0 +1,10 @@
+PREFIX ns: <http://www.semanticweb.org/SEBMAK/ontologies/2022/8/electroSEBMAK#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT *
+WHERE{
+	?Post rdf:type ns:Post;
+	ns:idPost ?idPost;
+	ns:contenu ?contenu;
+    ns:nomUser ?nomUser
+}
