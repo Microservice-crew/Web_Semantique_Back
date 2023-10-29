@@ -3,8 +3,8 @@ PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
 SELECT *
 WHERE{
-	?Group rdf:type ns:Group;
+	?GroupOfCelebration rdf:type ns:GroupOfCelebration;
 	ns:idGroup ?idGroup;
-	ns:nameGroup ?nameGroup;
+	ns:nameGroupOfCelebration ?nameGroupOfCelebration;
     ns:description ?description;
 }

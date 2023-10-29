@@ -6,7 +6,7 @@ PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
 SELECT *
 WHERE{
-	?Dislike rdf:type ns:Dislike;
+	?React rdf:type ns:React;
 	ns:idReact ?idReact;
 
 

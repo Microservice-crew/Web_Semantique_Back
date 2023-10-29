@@ -1,13 +1,12 @@
-PREFIX : <http://www.semanticweb.org/onezero/ontologies/2023/9/untitled-ontology-4/>
+PREFIX ns: <http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9/>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-
-
 
 
 SELECT *
 WHERE{
 
 	?Influencer rdf:type ns:Influencer;
+	ns:idUser ?idUser;
 	ns:Influencer_type ?Influencer_type;
 
 
