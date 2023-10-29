@@ -22,11 +22,30 @@
 
 
 
+    <!-- http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#has_number_of -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#has_number_of">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Comment"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Post"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#React"/>
+    </owl:ObjectProperty>
+
+
+
     <!-- http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#is_member_in -->
 
     <owl:ObjectProperty rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#is_member_in">
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Group"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#User"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Group"/>
+        <rdfs:range>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#is_member_in"/>
+                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">3</owl:maxQualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Group"/>
+            </owl:Restriction>
+        </rdfs:range>
     </owl:ObjectProperty>
 
 
@@ -112,21 +131,18 @@
 
 
 
-    <!-- http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#was_posted_by -->
-
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#was_posted_by">
-        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Post"/>
-        <rdfs:range rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#NormalUser"/>
-    </owl:ObjectProperty>
-
-
-
     <!-- http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#was_published_by -->
 
     <owl:ObjectProperty rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#was_published_by">
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Post"/>
         <rdfs:range rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#NormalUser"/>
+        <rdfs:range>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#was_published_by"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#User"/>
+            </owl:Restriction>
+        </rdfs:range>
     </owl:ObjectProperty>
 
 
@@ -147,6 +163,12 @@
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
         <rdfs:domain rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#React"/>
         <rdfs:range rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Post"/>
+        <rdfs:range>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#was_reacted_by"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Comment"/>
+            </owl:Restriction>
+        </rdfs:range>
     </owl:ObjectProperty>
 
 
@@ -155,6 +177,14 @@
 
     <owl:ObjectProperty rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#was_reclamed_by">
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Reclamation"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#NormalUser"/>
+        <rdfs:range>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#was_reclamed_by"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#NormalUser"/>
+            </owl:Restriction>
+        </rdfs:range>
     </owl:ObjectProperty>
 
 
@@ -163,15 +193,34 @@
 
     <owl:ObjectProperty rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#was_reclamed_on">
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Reclamation"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Inclusify"/>
     </owl:ObjectProperty>
 
 
 
-    <!-- http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#was_taken_by -->
+    <!-- http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#was_replied_by -->
 
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#was_taken_by">
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#was_replied_by">
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
-        <rdfs:range rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#NormalUser"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#ReplyReclam"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Admin"/>
+        <rdfs:range>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#was_replied_by"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Admin"/>
+            </owl:Restriction>
+        </rdfs:range>
+    </owl:ObjectProperty>
+
+
+
+    <!-- http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#was_replied_on -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#was_replied_on">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#ReplyReclam"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Reclamation"/>
     </owl:ObjectProperty>
 
 
@@ -326,7 +375,7 @@
     <!-- http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Comment -->
 
     <owl:Class rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Comment">
-        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Inclusify"/>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Post"/>
     </owl:Class>
 
 
@@ -351,6 +400,22 @@
 
     <owl:Class rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Group">
         <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Inclusify"/>
+    </owl:Class>
+
+
+
+    <!-- http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#GroupOfCelebration -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#GroupOfCelebration">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Group"/>
+    </owl:Class>
+
+
+
+    <!-- http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#GroupOfWork -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#GroupOfWork">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Group"/>
     </owl:Class>
 
 
@@ -425,6 +490,14 @@
 
 
 
+    <!-- http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#ReplyReclam -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#ReplyReclam">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Reclamation"/>
+    </owl:Class>
+
+
+
     <!-- http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#User -->
 
     <owl:Class rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#User">
@@ -456,6 +529,7 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Abdelkader">
         <rdf:type rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#NormalUser"/>
+        <untitled-ontology-9:is_member_in rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Security"/>
         <untitled-ontology-9:address>Nabeul</untitled-ontology-9:address>
         <untitled-ontology-9:email>abdelkader@esprit.tn</untitled-ontology-9:email>
         <untitled-ontology-9:name>Gadour</untitled-ontology-9:name>
@@ -476,7 +550,7 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Arij">
         <rdf:type rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Influencer"/>
-        <untitled-ontology-9:is_member_in rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Security"/>
+        <untitled-ontology-9:is_member_in rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#PartyClub"/>
         <untitled-ontology-9:email>arij@esprit.tn</untitled-ontology-9:email>
         <untitled-ontology-9:name>Arij Hajji</untitled-ontology-9:name>
     </owl:NamedIndividual>
@@ -495,17 +569,21 @@
     <!-- http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Developer -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Developer">
-        <rdf:type rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Group"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#GroupOfWork"/>
         <untitled-ontology-9:capacity rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25</untitled-ontology-9:capacity>
         <untitled-ontology-9:name>SpringDev</untitled-ontology-9:name>
     </owl:NamedIndividual>
 
 
 
-    <!-- http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#False -->
+    <!-- http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Hashtag -->
 
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#False">
-        <untitled-ontology-9:is_correct rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</untitled-ontology-9:is_correct>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Hashtag">
+        <rdf:type rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Comment"/>
+        <untitled-ontology-9:was_commented_by rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Sadok"/>
+        <untitled-ontology-9:was_commented_on rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Palastine"/>
+        <untitled-ontology-9:was_liked_by rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Abdelkader"/>
+        <untitled-ontology-9:description rdf:datatype="http://www.w3.org/1999/02/22-rdf-syntax-ns#langString">#GazaUnderAttack</untitled-ontology-9:description>
     </owl:NamedIndividual>
 
 
@@ -515,6 +593,7 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Jawher">
         <rdf:type rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Influencer"/>
         <untitled-ontology-9:is_member_in rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Security"/>
+        <untitled-ontology-9:address>Sfax</untitled-ontology-9:address>
         <untitled-ontology-9:email>jawher@esprit.tn</untitled-ontology-9:email>
         <untitled-ontology-9:name>Jawher Bali</untitled-ontology-9:name>
     </owl:NamedIndividual>
@@ -556,6 +635,19 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Orgonizer">
         <rdf:type rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Group"/>
+        <untitled-ontology-9:capacity rdf:datatype="http://www.w3.org/2001/XMLSchema#int">3</untitled-ontology-9:capacity>
+    </owl:NamedIndividual>
+
+
+
+    <!-- http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Palastine -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Palastine">
+        <rdf:type rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Post"/>
+        <untitled-ontology-9:has_number_of rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#OneLike"/>
+        <untitled-ontology-9:was_liked_by rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Arij"/>
+        <untitled-ontology-9:was_published_by rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Zied"/>
+        <untitled-ontology-9:description rdf:datatype="http://www.w3.org/1999/02/22-rdf-syntax-ns#langString">Free Palastine!!!!!!</untitled-ontology-9:description>
     </owl:NamedIndividual>
 
 
@@ -564,8 +656,27 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Party">
         <rdf:type rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#OnlineEvent"/>
-        <untitled-ontology-9:was_orgonised_by rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Zied"/>
+        <untitled-ontology-9:was_orgonised_by rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Arij"/>
         <untitled-ontology-9:title>partyy timeeee!!!</untitled-ontology-9:title>
+    </owl:NamedIndividual>
+
+
+
+    <!-- http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#PartyClub -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#PartyClub">
+        <rdf:type rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#GroupOfCelebration"/>
+    </owl:NamedIndividual>
+
+
+
+    <!-- http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#ReclamAnswer -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#ReclamAnswer">
+        <rdf:type rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#ReplyReclam"/>
+        <untitled-ontology-9:was_replied_by rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#admin"/>
+        <untitled-ontology-9:was_replied_on rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Warning"/>
+        <untitled-ontology-9:description>Well recieved</untitled-ontology-9:description>
     </owl:NamedIndividual>
 
 
@@ -575,6 +686,7 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Sadok">
         <rdf:type rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#VerifiedUser"/>
         <untitled-ontology-9:is_member_in rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Orgonizer"/>
+        <untitled-ontology-9:is_member_in rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#PartyClub"/>
         <untitled-ontology-9:is_member_in rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Security"/>
         <untitled-ontology-9:was_reclamed_by rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Arij"/>
         <untitled-ontology-9:email>sadok@esprit.tn</untitled-ontology-9:email>
@@ -587,7 +699,7 @@
     <!-- http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Security -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Security">
-        <rdf:type rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Group"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#GroupOfWork"/>
         <untitled-ontology-9:capacity rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">15</untitled-ontology-9:capacity>
         <untitled-ontology-9:name>CyberSecurity</untitled-ontology-9:name>
     </owl:NamedIndividual>
@@ -610,6 +722,9 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Welcome_Post">
         <rdf:type rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Post"/>
+        <untitled-ontology-9:has_number_of rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#OneDislike"/>
+        <untitled-ontology-9:was_disliked_by rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Jawher"/>
+        <untitled-ontology-9:was_liked_by rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Arij"/>
         <untitled-ontology-9:description>Welcome OneZero</untitled-ontology-9:description>
     </owl:NamedIndividual>
 
@@ -632,14 +747,6 @@
         <rdf:type rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Admin"/>
         <untitled-ontology-9:email>admin@admin.com</untitled-ontology-9:email>
         <untitled-ontology-9:name>admin</untitled-ontology-9:name>
-    </owl:NamedIndividual>
-
-
-
-    <!-- http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#true -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#true">
-        <untitled-ontology-9:is_correct rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</untitled-ontology-9:is_correct>
     </owl:NamedIndividual>
 </rdf:RDF>
 

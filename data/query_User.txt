@@ -2,12 +2,13 @@ PREFIX ns: <http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
 
-
-
 SELECT *
 WHERE{
-	?Dislike rdf:type ns:Dislike;
-	ns:idReact ?idReact;
+
+	?User rdf:type ns:User;
+	ns:idUser ?idUser;
+	ns:username ?username;
+	ns:phone_number ?phone_number;
 
 
 }
