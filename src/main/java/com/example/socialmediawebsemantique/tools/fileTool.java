@@ -4,7 +4,14 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-
+/**
+ *
+ * @author DO.IT-SUDPARIS
+ * Ce fichier sert �
+ * + Lire le contenu d'un fichier: getContents
+ * + Entr�e: Objet File
+ * + Sortie: une chaine de caract�re
+ */
 public class fileTool {
 
     static public String getContents(File aFile) {
