@@ -1,14 +1,14 @@
-PREFIX ns: <http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9/>
+PREFIX ns: <http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-
 
 SELECT *
 WHERE{
-
 	?User rdf:type ns:User;
-	ns:idUser ?idUser;
-	ns:username ?username;
-	ns:phone_number ?phone_number;
-
+	ns:nomUser ?nomUser;
+	ns:title ?title;
+	ns:email ?email;
+    ns:age ?age;
+   	ns:date ?date;
+   	FILTER (?nomUserParam != "" && ?nomUser = ?nomUserParam)
 
 }
