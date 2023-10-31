@@ -12,15 +12,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-
-public class controller {
+public class Post_Controller {
 
     Model model = jenaEngine.readModel("data/oneZero.owl");
 
 
-    @GetMapping("/OnlineEventSearch")
+    @GetMapping("/CommentSearch")
     @CrossOrigin(origins = "*")
-    public String getOnlineEvent(
+    public String getComments(
             @RequestParam(value = "domain", required = false) String domain
     ) {
         String NS = "";
@@ -36,7 +35,7 @@ public class controller {
             // query on the model after inference
 
 
-            String queryStr = FileManager.get().readWholeFileAsUTF8("data/query_OnlineEvent.txt");
+            String queryStr = FileManager.get().readWholeFileAsUTF8("data/query_Comment.txt");
 
 
             // Set the value of ?domainParam
@@ -60,9 +59,10 @@ public class controller {
             while (results.hasNext()) {
                 QuerySolution solution = results.next();
                 JsonObject jsonObject = new JsonObject();
-                jsonObject.put("OnlineEvent", solution.get("OnlineEvent").toString());
+                jsonObject.put("Comment", solution.get("Comment").toString());
+                jsonObject.put("nomUser", solution.get("nomUser").toString());
                 jsonObject.put("title", solution.get("title").toString());
-                jsonObject.put("description", solution.get("description").toString());
+                jsonObject.put("contenu", solution.get("contenu").toString());
                 jsonObject.put("date", solution.get("date").toString());
 
                 jsonArray.add(jsonObject);
@@ -83,9 +83,9 @@ public class controller {
     }
 
 
-    @GetMapping("/EventSearch")
+    @GetMapping("/PostSearch")
     @CrossOrigin(origins = "*")
-    public String getEvents(
+    public String getPosts(
             @RequestParam(value = "domain", required = false) String domain
     ) {
         String NS = "";
@@ -104,7 +104,7 @@ public class controller {
             System.out.println(res);
             return res.toString();*/
 
-            String queryStr = FileManager.get().readWholeFileAsUTF8("data/query_Event.txt");
+            String queryStr = FileManager.get().readWholeFileAsUTF8("data/query_Post.txt");
 
 
 
@@ -129,9 +129,10 @@ public class controller {
             while (results.hasNext()) {
                 QuerySolution solution = results.next();
                 JsonObject jsonObject = new JsonObject();
-                jsonObject.put("Event", solution.get("Event").toString());
+                jsonObject.put("Post", solution.get("Post").toString());
+                jsonObject.put("nomUser", solution.get("nomUser").toString());
                 jsonObject.put("title", solution.get("title").toString());
-                jsonObject.put("description", solution.get("description").toString());
+                jsonObject.put("contenu", solution.get("contenu").toString());
                 String dateValue = solution.get("date").toString();
                 String cleanedDate = dateValue.replace("^^http://www.w3.org/2001/XMLSchema#dateTime", "");
 
@@ -154,7 +155,5 @@ public class controller {
 
 
     }
-
-
 
 }

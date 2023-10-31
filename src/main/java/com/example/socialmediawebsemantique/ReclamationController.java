@@ -12,15 +12,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-
-public class controller {
+public class ReclamationController {
 
     Model model = jenaEngine.readModel("data/oneZero.owl");
 
 
-    @GetMapping("/OnlineEventSearch")
+
+
+
+
+    //Reclamation
+
+    @GetMapping("/ReplyReclamSearch")
     @CrossOrigin(origins = "*")
-    public String getOnlineEvent(
+    public String getReplyReclams(
             @RequestParam(value = "domain", required = false) String domain
     ) {
         String NS = "";
@@ -36,7 +41,7 @@ public class controller {
             // query on the model after inference
 
 
-            String queryStr = FileManager.get().readWholeFileAsUTF8("data/query_OnlineEvent.txt");
+            String queryStr = FileManager.get().readWholeFileAsUTF8("data/query_ReplyReclam.txt");
 
 
             // Set the value of ?domainParam
@@ -60,7 +65,7 @@ public class controller {
             while (results.hasNext()) {
                 QuerySolution solution = results.next();
                 JsonObject jsonObject = new JsonObject();
-                jsonObject.put("OnlineEvent", solution.get("OnlineEvent").toString());
+                jsonObject.put("ReplyReclam", solution.get("ReplyReclam").toString());
                 jsonObject.put("title", solution.get("title").toString());
                 jsonObject.put("description", solution.get("description").toString());
                 jsonObject.put("date", solution.get("date").toString());
@@ -83,9 +88,9 @@ public class controller {
     }
 
 
-    @GetMapping("/EventSearch")
+    @GetMapping("/ReclamationSearch")
     @CrossOrigin(origins = "*")
-    public String getEvents(
+    public String getReclamations(
             @RequestParam(value = "domain", required = false) String domain
     ) {
         String NS = "";
@@ -104,7 +109,7 @@ public class controller {
             System.out.println(res);
             return res.toString();*/
 
-            String queryStr = FileManager.get().readWholeFileAsUTF8("data/query_Event.txt");
+            String queryStr = FileManager.get().readWholeFileAsUTF8("data/query_Reclamation.txt");
 
 
 
@@ -129,7 +134,7 @@ public class controller {
             while (results.hasNext()) {
                 QuerySolution solution = results.next();
                 JsonObject jsonObject = new JsonObject();
-                jsonObject.put("Event", solution.get("Event").toString());
+                jsonObject.put("Reclamation", solution.get("Reclamation").toString());
                 jsonObject.put("title", solution.get("title").toString());
                 jsonObject.put("description", solution.get("description").toString());
                 String dateValue = solution.get("date").toString();
@@ -147,14 +152,10 @@ public class controller {
             System.out.println(jsonResult);
             return jsonResult;
 
-
         }
 
         return null;
 
-
     }
-
-
 
 }
