@@ -4,6 +4,7 @@ PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 SELECT *
 WHERE{
 	?GroupOfWork rdf:type ns:GroupOfWork;
+	ns:id ?id;
 	ns:name ?name;
             ns:date ?date;
             ns:capacity ?capacity;
