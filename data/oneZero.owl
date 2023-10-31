@@ -29,6 +29,7 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
+
     
 
 
@@ -36,6 +37,13 @@
 
     <rdfs:Datatype rdf:about="&rdf;langString"/>
     
+
+
+    <!-- http://www.w3.org/1999/02/22-rdf-syntax-ns#langString -->
+
+    <rdfs:Datatype rdf:about="&rdf;langString"/>
+    
+
 
 
     <!-- 
@@ -276,7 +284,9 @@
     <owl:DatatypeProperty rdf:about="&untitled-ontology-9;address">
         <rdfs:domain rdf:resource="&untitled-ontology-9;OnlineEvent"/>
         <rdfs:domain rdf:resource="&untitled-ontology-9;User"/>
+
         <rdfs:domain rdf:resource="&untitled-ontology-9;VerifiedUser"/>
+
         <rdfs:range rdf:resource="&xsd;string"/>
         <rdfs:subPropertyOf rdf:resource="&owl;topDataProperty"/>
     </owl:DatatypeProperty>
@@ -292,6 +302,7 @@
         <rdfs:subPropertyOf rdf:resource="&owl;topDataProperty"/>
     </owl:DatatypeProperty>
     
+
 
 
     <!-- http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#badge -->
@@ -312,6 +323,7 @@
         <rdfs:subPropertyOf rdf:resource="&owl;topDataProperty"/>
     </owl:DatatypeProperty>
     
+
 
 
     <!-- http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#capacity -->
@@ -363,7 +375,9 @@
 
     <owl:DatatypeProperty rdf:about="&untitled-ontology-9;email">
         <rdfs:domain rdf:resource="&untitled-ontology-9;User"/>
+
         <rdfs:domain rdf:resource="&untitled-ontology-9;VerifiedUser"/>
+
         <rdfs:range rdf:resource="&xsd;string"/>
         <rdfs:subPropertyOf rdf:resource="&owl;topDataProperty"/>
     </owl:DatatypeProperty>
@@ -397,6 +411,7 @@
         <rdfs:domain rdf:resource="&untitled-ontology-9;User"/>
         <rdfs:range rdf:resource="&xsd;string"/>
         <rdfs:subPropertyOf rdf:resource="&owl;topDataProperty"/>
+
     </owl:DatatypeProperty>
     
 
@@ -422,6 +437,7 @@
     
 
 
+
     <!-- http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#password -->
 
     <owl:DatatypeProperty rdf:about="&untitled-ontology-9;password">
@@ -429,7 +445,6 @@
         <rdfs:range rdf:resource="&xsd;string"/>
         <rdfs:subPropertyOf rdf:resource="&owl;topDataProperty"/>
     </owl:DatatypeProperty>
-    
 
 
     <!-- http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#phone -->
@@ -447,7 +462,9 @@
     <owl:DatatypeProperty rdf:about="&untitled-ontology-9;title">
         <rdfs:domain rdf:resource="&untitled-ontology-9;Event"/>
         <rdfs:domain rdf:resource="&untitled-ontology-9;Reclamation"/>
+
         <rdfs:domain rdf:resource="&untitled-ontology-9;User"/>
+
         <rdfs:range rdf:resource="&xsd;string"/>
         <rdfs:subPropertyOf rdf:resource="&owl;topDataProperty"/>
     </owl:DatatypeProperty>
@@ -660,7 +677,6 @@
     </owl:NamedIndividual>
     
 
-
     <!-- http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#AnswerReclam -->
 
     <owl:NamedIndividual rdf:about="&untitled-ontology-9;AnswerReclam">
@@ -693,6 +709,7 @@
     
 
 
+
     <!-- http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Congratulation_for_your_friends_zied -->
 
     <owl:NamedIndividual rdf:about="&untitled-ontology-9;Congratulation_for_your_friends_zied">
@@ -705,6 +722,7 @@
         <untitled-ontology-9:was_liked_by rdf:resource="&untitled-ontology-9;Sadok"/>
     </owl:NamedIndividual>
     
+
 
 
     <!-- http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Developer -->
@@ -751,7 +769,7 @@
         <untitled-ontology-9:email>jawher@esprit.tn</untitled-ontology-9:email>
         <untitled-ontology-9:is_member_in rdf:resource="&untitled-ontology-9;Security"/>
     </owl:NamedIndividual>
-    
+
 
 
     <!-- http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Med_amine -->
@@ -824,6 +842,10 @@
 
     <owl:NamedIndividual rdf:about="&untitled-ontology-9;Party">
         <rdf:type rdf:resource="&untitled-ontology-9;OnlineEvent"/>
+
+        <untitled-ontology-9:date rdf:datatype="&xsd;dateTime">2023-10-30T15:00:00</untitled-ontology-9:date>
+        <untitled-ontology-9:description rdf:datatype="&xsd;string">test</untitled-ontology-9:description>
+
         <untitled-ontology-9:title>partyy timeeee!!!</untitled-ontology-9:title>
         <untitled-ontology-9:was_orgonised_by rdf:resource="&untitled-ontology-9;Arij"/>
     </owl:NamedIndividual>
@@ -842,7 +864,9 @@
 
     <owl:NamedIndividual rdf:about="&untitled-ontology-9;ReclamAnswer">
         <rdf:type rdf:resource="&untitled-ontology-9;ReplyReclam"/>
+
         <untitled-ontology-9:date rdf:datatype="&xsd;dateTime">2023-08-07T23:56:22</untitled-ontology-9:date>
+
         <untitled-ontology-9:description>Well recieved</untitled-ontology-9:description>
         <untitled-ontology-9:was_replied_on rdf:resource="&untitled-ontology-9;Warning"/>
         <untitled-ontology-9:was_replied_by rdf:resource="&untitled-ontology-9;admin"/>
@@ -879,7 +903,9 @@
 
     <owl:NamedIndividual rdf:about="&untitled-ontology-9;Warning">
         <rdf:type rdf:resource="&untitled-ontology-9;Reclamation"/>
+
         <untitled-ontology-9:date rdf:datatype="&xsd;dateTime">2023-05-07T23:56:22</untitled-ontology-9:date>
+
         <untitled-ontology-9:description>Jawher is isulting me!!!!!</untitled-ontology-9:description>
         <untitled-ontology-9:title>Bad Words</untitled-ontology-9:title>
         <untitled-ontology-9:was_reclamed_by rdf:resource="&untitled-ontology-9;Sadok"/>
@@ -919,6 +945,7 @@
         <untitled-ontology-9:email>admin@admin.com</untitled-ontology-9:email>
     </owl:NamedIndividual>
     
+
 
 
     <!-- http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#bonjour_Zied_ena_sadok_nesstana_fik -->
@@ -1015,6 +1042,16 @@
         <untitled-ontology-9:nomUser rdf:datatype="&xsd;string">yassine mathlouthi</untitled-ontology-9:nomUser>
         <untitled-ontology-9:email rdf:datatype="&xsd;string">yassine.mathlouthi@esprit.tn</untitled-ontology-9:email>
         <untitled-ontology-9:is_member_in rdf:resource="&untitled-ontology-9;Security"/>
+
+    <!-- http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#onsiteParty -->
+
+    <owl:NamedIndividual rdf:about="&untitled-ontology-9;onsiteParty">
+        <rdf:type rdf:resource="&untitled-ontology-9;OnSiteEvent"/>
+        <untitled-ontology-9:date rdf:datatype="&xsd;dateTime">2023-10-05T15:00:00</untitled-ontology-9:date>
+        <untitled-ontology-9:title rdf:datatype="&xsd;string">Onsite Party</untitled-ontology-9:title>
+        <untitled-ontology-9:description rdf:datatype="&xsd;string">testtest</untitled-ontology-9:description>
+        <untitled-ontology-9:was_orgonised_by rdf:resource="&untitled-ontology-9;Zied"/>
+
     </owl:NamedIndividual>
 </rdf:RDF>
 
