@@ -7,10 +7,6 @@ import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.*;
 import org.apache.jena.reasoner.rulesys.GenericRuleReasoner;
 import org.apache.jena.reasoner.rulesys.Rule;
-import org.apache.jena.update.UpdateExecutionFactory;
-import org.apache.jena.update.UpdateFactory;
-import org.apache.jena.update.UpdateProcessor;
-import org.apache.jena.update.UpdateRequest;
 import org.apache.jena.util.FileManager;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -134,23 +130,5 @@ public class jenaEngine {
         }
         String queryString = fileTool.getContents(queryFile);
         return executeQuery(model, queryString);
-    }
-    public static boolean deleteGroupById(Model model, String groupId) {
-        // Implement the logic to find and delete the group with the given ID
-        // For example, you can use a SPARQL DELETE query to remove the corresponding data
-        String queryString = "PREFIX : <http://example.org/>" +
-                "DELETE WHERE { " +
-                "  ?group :id \"" + groupId + "\" . " +
-                "  ?group ?p ?o ." +
-                "}";
-        try {
-            UpdateRequest request = UpdateFactory.create(queryString);
-            UpdateProcessor processor = UpdateExecutionFactory.createRemote(request, "http://localhost:3030/ds/update");
-            processor.execute();
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
     }
 }

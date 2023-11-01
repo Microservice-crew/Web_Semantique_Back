@@ -3,15 +3,27 @@ package com.example.socialmediawebsemantique;
 import com.example.socialmediawebsemantique.tools.jenaEngine;
 import org.apache.jena.atlas.json.JsonArray;
 import org.apache.jena.atlas.json.JsonObject;
+import org.apache.jena.ontology.OntModel;
+import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.query.*;
+import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.update.UpdateAction;
 import org.apache.jena.util.FileManager;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 public class GroupController {
@@ -99,25 +111,62 @@ public class GroupController {
         return null;
     }
 
-    @DeleteMapping("/GroupDelete/{id}")
+
+
+    @DeleteMapping("/deleteGroup")
     @CrossOrigin(origins = "*")
-    public static boolean deleteGroupById(Model model, String groupId) {
-        // Implement the logic to find and delete the group with the given ID
-        // For example, you can use a SPARQL DELETE query to remove the corresponding data
-        String queryString = "PREFIX : <http://example.org/>" +
-                "DELETE WHERE { " +
-                "  ?group :id \"" + groupId + "\" . " +
-                "  ?group ?p ?o ." +
-                "}";
-        try {
-            UpdateAction.parseExecute(queryString, model);
-            return true;
-        } catch (Exception e) {
+    public ResponseEntity<String> deleteGroup(@RequestParam("id") Integer id) {
+        // Charger les données RDF depuis un fichier
+        Model model = jenaEngine.readModel("data/oneZero.owl");
+
+        // Créer un modèle Ont qui effectue des inférences
+        OntModel ontModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM_RULE_INF, model);
+
+        // Construire la requête SPARQL pour supprimer l'individu par ID
+        String sparqlDeleteQuery = "PREFIX ns: <http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#>\n" +
+                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                "DELETE {\n" +
+                "  ?Group rdf:type ns:Group;\n" +
+                "         ns:id ?id;\n" +
+                "         ns:name ?name;\n" +
+                "         ns:date ?date;\n" +
+                "         ns:capacity ?capacity;\n" +
+
+                "} WHERE {\n" +
+                "  ?Group rdf:type ns:Group;\n" +
+                "         ns:id ?id;\n" +
+                "         ns:name ?name;\n" +
+                "         ns:date ?date;\n" +
+                "         ns:capacity ?capacity;\n" +
+                "  FILTER (?id = " + id + ")\n" +
+                "}\n";
+
+        System.out.println(sparqlDeleteQuery);
+
+
+
+        // Exécuter la requête SPARQL pour supprimer l'individu
+        UpdateAction.parseExecute(sparqlDeleteQuery, ontModel);
+
+        // Enregistrer le modèle RDF mis à jour
+        try (OutputStream outputStream = Files.newOutputStream(Paths.get("data/oneZero.owl"))) {
+            ontModel.write(outputStream, "RDF/XML-ABBREV");
+        } catch (IOException e) {
             e.printStackTrace();
-            return false;
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Échec de la suppression du groupe.");
         }
+
+        return ResponseEntity.status(HttpStatus.OK).body("Groupe supprimé avec succès.");
     }
 
 
 
+
+
+
 }
+
+
+
+
+
