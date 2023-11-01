@@ -1,10 +1,13 @@
-PREFIX ns: <http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9/>
+PREFIX ns: <http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
 SELECT *
-WHERE{
-	?Post rdf:type ns:Post;
-	ns:idPost ?idPost;
-	ns:contenu ?contenu;
-
-}
+WHERE {
+  ?Post rdf:type ns:Post;
+       ns:nomUser ?nomUser;
+       ns:title ?title;
+       ns:contenu ?contenu;
+       ns:date ?date;
+  FILTER (?titleParam != "" && ?title = ?titleParam)
+  FILTER regex(?attribute, ?regexParam, "i")
+} ORDER BY ?Type (?orderBy)

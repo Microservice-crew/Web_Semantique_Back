@@ -13,3 +13,4 @@ WHERE {
   FILTER regex(?attribute, ?regexParam, "i")
 } ORDER BY ?Type (?orderBy)
 
+
