@@ -10,5 +10,6 @@ WHERE {
         ns:description ?description;
         ns:type ?type;
   FILTER (?titleParam != "" && ?title = ?titleParam)
-}
+  FILTER regex(?attribute, ?regexParam, "i")
+} ORDER BY ?Type (?orderBy)
 
