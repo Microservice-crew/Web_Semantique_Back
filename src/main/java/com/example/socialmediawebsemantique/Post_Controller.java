@@ -3,13 +3,21 @@ package com.example.socialmediawebsemantique;
 import com.example.socialmediawebsemantique.tools.jenaEngine;
 import org.apache.jena.atlas.json.JsonArray;
 import org.apache.jena.atlas.json.JsonObject;
+import org.apache.jena.ontology.OntModel;
+import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.update.UpdateAction;
 import org.apache.jena.util.FileManager;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 @RestController
 public class Post_Controller {
@@ -155,5 +163,107 @@ public class Post_Controller {
 
 
     }
+
+
+
+    //Delete Post
+    // Supprimer un post par title en utilisant une requête SPARQL
+    @DeleteMapping("/deletePost")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<String> deletePost(@RequestParam("title") String title) {
+        // Charger les données RDF depuis un fichier
+        Model model = jenaEngine.readModel("data/oneZero.owl");
+
+        // Créer un modèle Ont qui effectue des inférences
+        OntModel ontModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM_RULE_INF, model);
+
+        // Construire la requête SPARQL pour supprimer l'individu par ID
+        String sparqlDeleteQuery = "PREFIX ns: <http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#>\n" +
+                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                "DELETE {\n" +
+                "  ?Post rdf:type ns:Post;\n" +
+                "         ns:title ?title;\n" +
+                "         ns:nomUser ?nomUser;\n" +
+                "         ns:contenu ?contenu;\n" +
+                "         ns:date ?date;\n" +
+                "} WHERE {\n" +
+                "  ?Post rdf:type ns:Post;\n" +
+                "         ns:title ?title;\n" +
+                "         ns:nomUser ?nomUser;\n" +
+                "         ns:contenu ?contenu;\n" +
+                "         ns:date ?date;\n" +
+                "FILTER (?title = \"" + title + "\")\n" +
+                "}\n";
+
+        System.out.println(sparqlDeleteQuery);
+
+
+
+        // Exécuter la requête SPARQL pour supprimer l'individu
+        UpdateAction.parseExecute(sparqlDeleteQuery, ontModel);
+
+        // Enregistrer le modèle RDF mis à jour
+        try (OutputStream outputStream = Files.newOutputStream(Paths.get("data/oneZero.owl"))) {
+            ontModel.write(outputStream, "RDF/XML-ABBREV");
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Échec de la suppression de la Post.");
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body("Post supprimé avec succès.");
+    }
+
+
+
+
+
+
+    //Delete Comment
+    // Supprimer un comment par title en utilisant une requête SPARQL
+    @DeleteMapping("/deleteComment")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<String> deleteComment(@RequestParam("title") String title) {
+        // Charger les données RDF depuis un fichier
+        Model model = jenaEngine.readModel("data/oneZero.owl");
+
+        // Créer un modèle Ont qui effectue des inférences
+        OntModel ontModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM_RULE_INF, model);
+
+        // Construire la requête SPARQL pour supprimer l'individu par ID
+        String sparqlDeleteQuery = "PREFIX ns: <http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#>\n" +
+                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                "DELETE {\n" +
+                "  ?Comment rdf:type ns:Comment;\n" +
+                "         ns:title ?title;\n" +
+                "         ns:nomUser ?nomUser;\n" +
+                "         ns:contenu ?contenu;\n" +
+                "         ns:date ?date;\n" +
+                "} WHERE {\n" +
+                "  ?Comment rdf:type ns:Comment;\n" +
+                "         ns:title ?title;\n" +
+                "         ns:nomUser ?nomUser;\n" +
+                "         ns:contenu ?contenu;\n" +
+                "         ns:date ?date;\n" +
+                "FILTER (?title = \"" + title + "\")\n" +
+                "}\n";
+
+        System.out.println(sparqlDeleteQuery);
+
+
+
+        // Exécuter la requête SPARQL pour supprimer l'individu
+        UpdateAction.parseExecute(sparqlDeleteQuery, ontModel);
+
+        // Enregistrer le modèle RDF mis à jour
+        try (OutputStream outputStream = Files.newOutputStream(Paths.get("data/oneZero.owl"))) {
+            ontModel.write(outputStream, "RDF/XML-ABBREV");
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Échec de la suppression de la Comment.");
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body("Comment supprimé avec succès.");
+    }
+
 
 }

@@ -7,9 +7,11 @@ PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 SELECT *
 WHERE{
 	?Event rdf:type ns:Event;
-	ns:idEvent ?idEvent;
-    ns:title ?title;
+	ns:id ?id;
+	ns:title ?title;
     ns:date ?date;
     ns:description ?description;
+    ns:type ?type;
+    FILTER (?titleParam != "" && ?title = ?titleParam)
 
 }
