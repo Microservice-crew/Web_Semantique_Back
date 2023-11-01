@@ -1,10 +1,11 @@
-PREFIX ns: <http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9/>
+PREFIX ns: <http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
 SELECT *
 WHERE{
-	?Reply_Reclam rdf:type ns:Reply_Reclam;
-	ns:idReclamation ?idReclamation;
+	?ReplyReclam rdf:type ns:ReplyReclam;
 	ns:title ?title;
-    ns:description ?description
+    ns:description ?description;
+    ns:date ?date;
+    FILTER (?titleParam != "" && ?title = ?titleParam)
 }

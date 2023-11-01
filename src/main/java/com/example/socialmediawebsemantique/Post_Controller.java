@@ -3,51 +3,37 @@ package com.example.socialmediawebsemantique;
 import com.example.socialmediawebsemantique.tools.jenaEngine;
 import org.apache.jena.atlas.json.JsonArray;
 import org.apache.jena.atlas.json.JsonObject;
-
-
 import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.OntModelSpec;
-
 import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.Literal;
-
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.update.UpdateAction;
 import org.apache.jena.util.FileManager;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.stream.StreamSupport;
-
-
+import java.io.IOException;
 import java.io.OutputStream;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static org.apache.jena.sparql.core.assembler.DatasetAssemblerVocab.NS;
-
-
-
 @RestController
-
-public class controller {
+public class Post_Controller {
 
     Model model = jenaEngine.readModel("data/oneZero.owl");
 
 
-    @GetMapping("/OnlineEventSearch")
+    @GetMapping("/CommentSearch")
     @CrossOrigin(origins = "*")
-    public String getOnlineEvent(
+    public String getComments(
             @RequestParam(value = "domain", required = false) String domain
     ) {
         String NS = "";
@@ -63,7 +49,7 @@ public class controller {
             // query on the model after inference
 
 
-            String queryStr = FileManager.get().readWholeFileAsUTF8("data/query_OnlineEvent.txt");
+            String queryStr = FileManager.get().readWholeFileAsUTF8("data/query_Comment.txt");
 
 
             // Set the value of ?domainParam
@@ -87,9 +73,10 @@ public class controller {
             while (results.hasNext()) {
                 QuerySolution solution = results.next();
                 JsonObject jsonObject = new JsonObject();
-                jsonObject.put("OnlineEvent", solution.get("OnlineEvent").toString());
+                jsonObject.put("Comment", solution.get("Comment").toString());
+                jsonObject.put("nomUser", solution.get("nomUser").toString());
                 jsonObject.put("title", solution.get("title").toString());
-                jsonObject.put("description", solution.get("description").toString());
+                jsonObject.put("contenu", solution.get("contenu").toString());
                 jsonObject.put("date", solution.get("date").toString());
 
                 jsonArray.add(jsonObject);
@@ -105,13 +92,17 @@ public class controller {
         return jsonResult;
 
 
+
+
     }
 
 
-    @GetMapping("/EventSearch")
-    @CrossOrigin(origins = "*")
-    public String getEvents(
 
+
+
+    @GetMapping("/PostSearch")
+    @CrossOrigin(origins = "*")
+    public String getPosts(
             @RequestParam(value = "domain", required = false) String domain,
             @RequestParam(value = "Type", required = false) String Type,
             @RequestParam(value = "orderBy", required = false) String orderBy,
@@ -136,7 +127,7 @@ public class controller {
             System.out.println(res);
             return res.toString();*/
 
-            String queryStr = FileManager.get().readWholeFileAsUTF8("data/query_Event.txt");
+            String queryStr = FileManager.get().readWholeFileAsUTF8("data/query_Post.txt");
 
 
 
@@ -164,8 +155,6 @@ public class controller {
                 queryStr = queryStr.replace("FILTER regex(?attribute, ?regexParam, \"i\")", "");
             }
 
-
-
             System.out.println(queryStr);
             // Execute the query
             // Exécuter la requête pour les événements en ligne
@@ -178,15 +167,17 @@ public class controller {
             while (results.hasNext()) {
                 QuerySolution solution = results.next();
                 JsonObject jsonObject = new JsonObject();
-                jsonObject.put("Event", solution.get("Event").toString());
+                jsonObject.put("Post", solution.get("Post").toString());
+                jsonObject.put("nomUser", solution.get("nomUser").toString());
                 jsonObject.put("title", solution.get("title").toString());
-                jsonObject.put("description", solution.get("description").toString());
+                jsonObject.put("contenu", solution.get("contenu").toString());
                 String dateValue = solution.get("date").toString();
                 String cleanedDate = dateValue.replace("^^http://www.w3.org/2001/XMLSchema#dateTime", "");
 
                 jsonObject.put("date", cleanedDate);
                 jsonArray.add(jsonObject);
             }
+
 
 
 // Convertir le JSON en une chaîne
@@ -201,16 +192,20 @@ public class controller {
         return null;
 
 
-
     }
 
 
 
-    //Delete Event
-    // Supprimer un événement par ID en utilisant une requête SPARQL
-    @DeleteMapping("/deleteEvent")
+
+
+
+
+
+    //Delete Post
+    // Supprimer un post par title en utilisant une requête SPARQL
+    @DeleteMapping("/deletePost")
     @CrossOrigin(origins = "*")
-    public ResponseEntity<String> deleteEvent(@RequestParam("id") Integer id) {
+    public ResponseEntity<String> deletePost(@RequestParam("title") String title) {
         // Charger les données RDF depuis un fichier
         Model model = jenaEngine.readModel("data/oneZero.owl");
 
@@ -221,23 +216,21 @@ public class controller {
         String sparqlDeleteQuery = "PREFIX ns: <http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#>\n" +
                 "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
                 "DELETE {\n" +
-                "  ?Event rdf:type ns:Event;\n" +
-                "         ns:id ?id;\n" +
+                "  ?Post rdf:type ns:Post;\n" +
                 "         ns:title ?title;\n" +
+                "         ns:nomUser ?nomUser;\n" +
+                "         ns:contenu ?contenu;\n" +
                 "         ns:date ?date;\n" +
-                "         ns:description ?description;\n" +
-                "         ns:type ?type.\n" +
                 "} WHERE {\n" +
-                "  ?Event rdf:type ns:Event;\n" +
-                "         ns:id ?id;\n" +
+                "  ?Post rdf:type ns:Post;\n" +
                 "         ns:title ?title;\n" +
+                "         ns:nomUser ?nomUser;\n" +
+                "         ns:contenu ?contenu;\n" +
                 "         ns:date ?date;\n" +
-                "         ns:description ?description;\n" +
-                "         ns:type ?type.\n" +
-                "  FILTER (?id = " + id + ")\n" +
+                "FILTER (?title = \"" + title + "\")\n" +
                 "}\n";
 
-System.out.println(sparqlDeleteQuery);
+        System.out.println(sparqlDeleteQuery);
 
 
 
@@ -249,20 +242,78 @@ System.out.println(sparqlDeleteQuery);
             ontModel.write(outputStream, "RDF/XML-ABBREV");
         } catch (IOException e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Échec de la suppression de l'événement.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Échec de la suppression de la Post.");
         }
 
-        return ResponseEntity.status(HttpStatus.OK).body("Événement supprimé avec succès.");
+        return ResponseEntity.status(HttpStatus.OK).body("Post supprimé avec succès.");
     }
-    @PostMapping("/createEvent")
+
+
+
+
+
+
+    //Delete Comment
+    // Supprimer un comment par title en utilisant une requête SPARQL
+    @DeleteMapping("/deleteComment")
     @CrossOrigin(origins = "*")
-    public ResponseEntity<String> createEvent(@RequestBody EventModel eventRequest) throws ParseException {
+    public ResponseEntity<String> deleteComment(@RequestParam("title") String title) {
+        // Charger les données RDF depuis un fichier
+        Model model = jenaEngine.readModel("data/oneZero.owl");
+
+        // Créer un modèle Ont qui effectue des inférences
+        OntModel ontModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM_RULE_INF, model);
+
+        // Construire la requête SPARQL pour supprimer l'individu par ID
+        String sparqlDeleteQuery = "PREFIX ns: <http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#>\n" +
+                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                "DELETE {\n" +
+                "  ?Comment rdf:type ns:Comment;\n" +
+                "         ns:title ?title;\n" +
+                "         ns:nomUser ?nomUser;\n" +
+                "         ns:contenu ?contenu;\n" +
+                "         ns:date ?date;\n" +
+                "} WHERE {\n" +
+                "  ?Comment rdf:type ns:Comment;\n" +
+                "         ns:title ?title;\n" +
+                "         ns:nomUser ?nomUser;\n" +
+                "         ns:contenu ?contenu;\n" +
+                "         ns:date ?date;\n" +
+                "FILTER (?title = \"" + title + "\")\n" +
+                "}\n";
+
+        System.out.println(sparqlDeleteQuery);
+
+
+
+        // Exécuter la requête SPARQL pour supprimer l'individu
+        UpdateAction.parseExecute(sparqlDeleteQuery, ontModel);
+
+        // Enregistrer le modèle RDF mis à jour
+        try (OutputStream outputStream = Files.newOutputStream(Paths.get("data/oneZero.owl"))) {
+            ontModel.write(outputStream, "RDF/XML-ABBREV");
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Échec de la suppression de la Comment.");
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body("Comment supprimé avec succès.");
+    }
+
+
+
+    //Create Post
+
+    @PostMapping("/createPost")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<String> createPost(@RequestBody PostModel postRequest) throws ParseException {
         // Extract data from the EventRequest object
-        Integer id = eventRequest.getId();
-        String title = eventRequest.getTitle();
-        String description = eventRequest.getDescription();
-        String dateString = eventRequest.getDate();
-        String type = eventRequest.getType();
+        Integer id = postRequest.getId();
+        String nomUser = postRequest.getNomUser();
+        String title = postRequest.getTitle();
+        String contenu = postRequest.getContenu();
+        String dateString = postRequest.getDate();
+
 
         // Load RDF data from a file
         Model model = jenaEngine.readModel("data/oneZero.owl");
@@ -276,32 +327,33 @@ System.out.println(sparqlDeleteQuery);
         Date date = dateFormat.parse(dateString);
 
         // Create the RDF properties using the correct URIs
-        String eventURI = NS + "Event_" + generateUniqueID();
+        String eventURI = NS + "Post_" + generateUniqueID();
         String dateURI = NS + "date";
-        String typeURI = NS + "type";
+        String nomUserURI = NS + "nomUser";
         String titleURI = NS + "title";
+        String contenuURI = NS + "contenu";
         String idURI = NS + "id";
-        String descriptionURI = NS + "description";
+
 
         // Create an individual for the new event with the appropriate URI
-        Individual newEvent = ontModel.createIndividual(eventURI, ontModel.createClass(NS + "Event"));
+        Individual newPost = ontModel.createIndividual(eventURI, ontModel.createClass(NS + "Post"));
 
         // Set the properties of the event using the correct URIs
-        newEvent.addProperty(ontModel.getProperty(idURI), ontModel.createTypedLiteral(id, XSDDatatype.XSDinteger));
-        newEvent.addProperty(ontModel.getProperty(titleURI), title);
-        newEvent.addProperty(ontModel.getProperty(descriptionURI), description);
-        newEvent.addProperty(ontModel.getProperty(dateURI), ontModel.createTypedLiteral(date, XSDDatatype.XSDdateTime));
-        newEvent.addProperty(ontModel.getProperty(typeURI), type);
+        newPost.addProperty(ontModel.getProperty(idURI), ontModel.createTypedLiteral(id, XSDDatatype.XSDinteger));
+        newPost.addProperty(ontModel.getProperty(titleURI), title);
+        newPost.addProperty(ontModel.getProperty(contenuURI), contenu);
+        newPost.addProperty(ontModel.getProperty(dateURI), ontModel.createTypedLiteral(date, XSDDatatype.XSDdateTime));
+        newPost.addProperty(ontModel.getProperty(nomUserURI), nomUser);
 
         // Save the updated RDF model
         try (OutputStream outputStream = Files.newOutputStream(Paths.get("data/oneZero.owl"))) {
             ontModel.write(outputStream, "RDF/XML-ABBREV");
         } catch (IOException e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to create the event.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to create the post.");
         }
 
-        return ResponseEntity.status(HttpStatus.OK).body("Event created successfully.");
+        return ResponseEntity.status(HttpStatus.OK).body("Post created successfully.");
     }
 
     // Generate a unique ID for the new event
@@ -309,9 +361,13 @@ System.out.println(sparqlDeleteQuery);
         return String.valueOf(System.currentTimeMillis());
     }
 
-    @PutMapping("/updateEvent")
+
+
+    //modifier Post
+
+    @PutMapping("/updatePost")
     @CrossOrigin(origins = "*")
-    public ResponseEntity<String> updateEvent(@RequestBody EventModel eventRequest, @RequestParam("id") Integer id) {
+    public ResponseEntity<String> updatePost(@RequestBody PostModel postRequest, @RequestParam("id") Integer id) {
         // Load RDF data from a file
         Model model = jenaEngine.readModel("data/oneZero.owl");
 
@@ -321,13 +377,13 @@ System.out.println(sparqlDeleteQuery);
 
         // Define the properties and URIs to update
         String dateURI = NS + "date";
-        String typeURI = NS + "type";
+        String nomUserURI = NS + "nomUser";
         String titleURI = NS + "title";
-        String descriptionURI = NS + "description";
+        String contenuURI = NS + "contenu";
 
         // Use a prepared SPARQL query to avoid injection vulnerabilities and improve readability
         String sparqlFindQuery = String.format(
-                "SELECT ?Event WHERE { ?Event <%s> ?id. FILTER (?id = %d) }",
+                "SELECT ?Post WHERE { ?Post <%s> ?id. FILTER (?id = %d) }",
                 NS + "id",
                 id
         );
@@ -337,13 +393,14 @@ System.out.println(sparqlDeleteQuery);
 
         if (findResults.hasNext()) {
             // Individual with the specified ID exists, proceed with the update
-            Individual existingEvent = ontModel.getIndividual(findResults.next().getResource("Event").getURI());
+            Individual existingPost = ontModel.getIndividual(findResults.next().getResource("Post").getURI());
 
             // Extract the data to update from the request
-            String newTitle = eventRequest.getTitle();
-            String newDescription = eventRequest.getDescription();
-            String newDateString = eventRequest.getDate();
-            String newType = eventRequest.getType();
+
+            String newNomUser = postRequest.getNomUser();
+            String newTitle = postRequest.getTitle();
+            String newContenu = postRequest.getContenu();
+            String newDateString = postRequest.getDate();
 
             // Parse the new date
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
@@ -352,11 +409,10 @@ System.out.println(sparqlDeleteQuery);
                 Literal newDateLiteral = ontModel.createTypedLiteral(newDate, XSDDatatype.XSDdateTime);
 
                 // Update the properties of the existing event
-                existingEvent.setPropertyValue(ontModel.getProperty(titleURI), ontModel.createLiteral(newTitle));
-                existingEvent.setPropertyValue(ontModel.getProperty(descriptionURI), ontModel.createLiteral(newDescription));
-
-                existingEvent.setPropertyValue(ontModel.getProperty(dateURI), newDateLiteral);
-                existingEvent.setPropertyValue(ontModel.getProperty(typeURI), ontModel.createLiteral(newType));
+                existingPost.setPropertyValue(ontModel.getProperty(titleURI), ontModel.createLiteral(newTitle));
+                existingPost.setPropertyValue(ontModel.getProperty(contenuURI), ontModel.createLiteral(newContenu));
+                existingPost.setPropertyValue(ontModel.getProperty(dateURI), newDateLiteral);
+                existingPost.setPropertyValue(ontModel.getProperty(nomUserURI), ontModel.createLiteral(newNomUser));
             } catch (ParseException e) {
                 e.printStackTrace();
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid date format.");
@@ -367,19 +423,23 @@ System.out.println(sparqlDeleteQuery);
                 ontModel.write(outputStream, "RDF/XML-ABBREV");
             } catch (IOException e) {
                 e.printStackTrace();
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update the event.");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update the post.");
             }
 
-            return ResponseEntity.status(HttpStatus.OK).body("Event updated successfully.");
+            return ResponseEntity.status(HttpStatus.OK).body("Post updated successfully.");
         } else {
             // Individual with the specified ID doesn't exist
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Event with ID " + id + " not found.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Post with ID " + id + " not found.");
         }
     }
 
-    @GetMapping("/getEventById")
+
+    //Post ById :
+
+
+    @GetMapping("/getPostById")
     @CrossOrigin(origins = "*")
-    public ResponseEntity<String> getEventById(@RequestParam("id") Integer id) {
+    public ResponseEntity<String> getPostById(@RequestParam("id") Integer id) {
         // Load RDF data from a file
         Model model = jenaEngine.readModel("data/oneZero.owl");
 
@@ -389,20 +449,22 @@ System.out.println(sparqlDeleteQuery);
 
         // Define the properties and URIs to retrieve
 
+
+
         String dateURI = NS + "date";
-        String typeURI = NS + "type";
+        String nomUserURI = NS + "nomUser";
         String titleURI = NS + "title";
-        String descriptionURI = NS + "description";
+        String contenuURI = NS + "contenu";
 
         // Find the individual by its ID
         // Find the individual by its ID
-        String sparqlFindQuery = "SELECT ?title ?description ?date ?type WHERE { " +
-                "?Event <" + NS + "id> ?id. " +
+        String sparqlFindQuery = "SELECT ?title ?contenu ?date ?nomUser WHERE { " +
+                "?Post <" + NS + "id> ?id. " +
                 "  FILTER (?id = " + id + ")" +
-                "?Event <" + titleURI + "> ?title. " +
-                "?Event <" + descriptionURI + "> ?description. " +
-                "?Event <" + dateURI + "> ?date. " +
-                "?Event <" + typeURI + "> ?type. " +
+                "?Post <" + titleURI + "> ?title. " +
+                "?Post <" + contenuURI + "> ?contenu. " +
+                "?Post <" + dateURI + "> ?date. " +
+                "?Post <" + nomUserURI + "> ?nomUser. " +
                 "}";
 
 
@@ -415,18 +477,18 @@ System.out.println(sparqlDeleteQuery);
             QuerySolution solution = findResults.next();
             JsonObject jsonObject = new JsonObject();
             jsonObject.put("title", solution.get("title").toString());
-            jsonObject.put("description", solution.get("description").toString());
+            jsonObject.put("contenu", solution.get("contenu").toString());
             jsonObject.put("date", solution.get("date").toString());
-            jsonObject.put("type", solution.get("type").toString());
+            jsonObject.put("nomUser", solution.get("nomUser").toString());
 
             // Convert the JSON to a string
             String jsonResult = jsonObject.toString();
             return ResponseEntity.status(HttpStatus.OK).body(jsonResult);
         } else {
             // Individual with the specified ID doesn't exist
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Event with ID " + id + " not found.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Post with ID " + id + " not found.");
         }
     }
 
-}
 
+}
