@@ -3,6 +3,8 @@ package com.example.socialmediawebsemantique;
 import com.example.socialmediawebsemantique.tools.jenaEngine;
 import org.apache.jena.atlas.json.JsonArray;
 import org.apache.jena.atlas.json.JsonObject;
+import org.apache.jena.datatypes.xsd.XSDDatatype;
+import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.query.*;
@@ -157,6 +159,60 @@ public class GroupController {
         }
 
         return ResponseEntity.status(HttpStatus.OK).body("Groupe supprimé avec succès.");
+    }
+
+
+    @PostMapping("/createGroup")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<String> createGroup(@RequestBody GroupModel groupRequest) throws ParseException {
+        // Extract data from the GroupRequest object
+        Integer id = groupRequest.getId();
+        String name = groupRequest.getName();
+        Integer capacity = groupRequest.getCapacity();
+        String dateString = groupRequest.getDate();
+
+
+        // Load RDF data from a file
+        Model model = jenaEngine.readModel("data/oneZero.owl");
+
+        // Create an OntModel for inferencing with the correct namespace
+        String NS = "http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#";
+        OntModel ontModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM_RULE_INF, model);
+
+        // Parse the date from the string
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        Date date = dateFormat.parse(dateString);
+
+        // Create the RDF properties using the correct URIs
+        String groupURI = NS + "Group_" + generateUniqueID();
+        String dateURI = NS + "date";
+        String capacityURI = NS + "capacity";
+        String nameURI = NS + "name";
+        String idURI = NS + "id";
+
+        // Create an individual for the new event with the appropriate URI
+        Individual newGroup = ontModel.createIndividual(groupURI, ontModel.createClass(NS + "Group"));
+
+        // Set the properties of the event using the correct URIs
+        newGroup.addProperty(ontModel.getProperty(idURI), ontModel.createTypedLiteral(id, XSDDatatype.XSDinteger));
+        newGroup.addProperty(ontModel.getProperty(nameURI), name);
+        newGroup.addProperty(ontModel.getProperty(capacityURI), ontModel.createTypedLiteral(capacity, XSDDatatype.XSDinteger));
+        newGroup.addProperty(ontModel.getProperty(dateURI), ontModel.createTypedLiteral(date, XSDDatatype.XSDdateTime));
+
+        // Save the updated RDF model
+        try (OutputStream outputStream = Files.newOutputStream(Paths.get("data/oneZero.owl"))) {
+            ontModel.write(outputStream, "RDF/XML-ABBREV");
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to create the group.");
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body("Group created successfully.");
+    }
+
+    // Generate a unique ID for the new event
+    private String generateUniqueID() {
+        return String.valueOf(System.currentTimeMillis());
     }
 
 

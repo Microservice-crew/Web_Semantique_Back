@@ -370,6 +370,15 @@
     <untitled-ontology-9:was_orgonised_by rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Sadok"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
   </untitled-ontology-9:OnSiteEvent>
+  <untitled-ontology-9:Group rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Group_1698867175040">
+    <untitled-ontology-9:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime"
+    >Wed Nov 01 21:32:00 WAT 2023</untitled-ontology-9:date>
+    <untitled-ontology-9:capacity rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+    >15</untitled-ontology-9:capacity>
+    <untitled-ontology-9:name>Testtadd group</untitled-ontology-9:name>
+    <untitled-ontology-9:id rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+    >8</untitled-ontology-9:id>
+  </untitled-ontology-9:Group>
   <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#FunGroup">
     <untitled-ontology-9:name>Lions</untitled-ontology-9:name>
     <untitled-ontology-9:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime"
@@ -410,6 +419,15 @@
     <untitled-ontology-9:was_orgonised_by rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Zied"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
   </untitled-ontology-9:OnSiteEvent>
+  <untitled-ontology-9:Group rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Group_1698867131329">
+    <untitled-ontology-9:id rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+    >8</untitled-ontology-9:id>
+    <untitled-ontology-9:name>Sadok</untitled-ontology-9:name>
+    <untitled-ontology-9:capacity rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+    >15</untitled-ontology-9:capacity>
+    <untitled-ontology-9:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime"
+    >Wed Nov 01 21:32:00 WAT 2023</untitled-ontology-9:date>
+  </untitled-ontology-9:Group>
   <untitled-ontology-9:GroupOfWork rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#5TWIN8">
     <untitled-ontology-9:name>WEB CLASS</untitled-ontology-9:name>
     <untitled-ontology-9:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime"
