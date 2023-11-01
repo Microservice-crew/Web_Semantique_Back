@@ -4,38 +4,30 @@ import com.example.socialmediawebsemantique.tools.jenaEngine;
 import org.apache.jena.atlas.json.JsonArray;
 import org.apache.jena.atlas.json.JsonObject;
 
-
 import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.OntModelSpec;
-
 import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.Literal;
-
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.update.UpdateAction;
 import org.apache.jena.util.FileManager;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.stream.StreamSupport;
 
-
+import java.io.IOException;
 import java.io.OutputStream;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static org.apache.jena.sparql.core.assembler.DatasetAssemblerVocab.NS;
-
 
 
 @RestController
@@ -88,9 +80,11 @@ public class controller {
                 QuerySolution solution = results.next();
                 JsonObject jsonObject = new JsonObject();
                 jsonObject.put("OnlineEvent", solution.get("OnlineEvent").toString());
+                jsonObject.put("id", solution.get("id").toString());
                 jsonObject.put("title", solution.get("title").toString());
                 jsonObject.put("description", solution.get("description").toString());
                 jsonObject.put("date", solution.get("date").toString());
+                jsonObject.put("type", solution.get("type").toString());
 
                 jsonArray.add(jsonObject);
             }
@@ -111,7 +105,6 @@ public class controller {
     @GetMapping("/EventSearch")
     @CrossOrigin(origins = "*")
     public String getEvents(
-
             @RequestParam(value = "domain", required = false) String domain,
             @RequestParam(value = "Type", required = false) String Type,
             @RequestParam(value = "orderBy", required = false) String orderBy,
@@ -165,7 +158,6 @@ public class controller {
             }
 
 
-
             System.out.println(queryStr);
             // Execute the query
             // Exécuter la requête pour les événements en ligne
@@ -179,12 +171,16 @@ public class controller {
                 QuerySolution solution = results.next();
                 JsonObject jsonObject = new JsonObject();
                 jsonObject.put("Event", solution.get("Event").toString());
+                String idValue = solution.get("id").toString();
+                String cleanedId = idValue.replace("^^http://www.w3.org/2001/XMLSchema#integer", "");
+                jsonObject.put("id", cleanedId);
                 jsonObject.put("title", solution.get("title").toString());
                 jsonObject.put("description", solution.get("description").toString());
                 String dateValue = solution.get("date").toString();
                 String cleanedDate = dateValue.replace("^^http://www.w3.org/2001/XMLSchema#dateTime", "");
 
                 jsonObject.put("date", cleanedDate);
+                jsonObject.put("type", solution.get("type").toString());
                 jsonArray.add(jsonObject);
             }
 
@@ -201,9 +197,7 @@ public class controller {
         return null;
 
 
-
     }
-
 
 
     //Delete Event
@@ -237,7 +231,7 @@ public class controller {
                 "  FILTER (?id = " + id + ")\n" +
                 "}\n";
 
-System.out.println(sparqlDeleteQuery);
+        System.out.println(sparqlDeleteQuery);
 
 
 
@@ -429,4 +423,3 @@ System.out.println(sparqlDeleteQuery);
     }
 
 }
-
