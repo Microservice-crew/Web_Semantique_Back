@@ -319,6 +319,7 @@
     <rdfs:domain rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Group"/>
     <rdfs:domain rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#GroupOfCelebration"/>
     <rdfs:domain rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#GroupOfWork"/>
+    <rdfs:domain rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Post"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
     <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
   </owl:DatatypeProperty>
@@ -531,17 +532,37 @@
     <untitled-ontology-9:phone>71666555</untitled-ontology-9:phone>
   </untitled-ontology-9:VerifiedUser>
   <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#congratulation_Bro">
-    <untitled-ontology-9:was_published_by rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Zied"/>
     <untitled-ontology-9:was_liked_by rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Abdelkader"/>
     <untitled-ontology-9:was_commented_by rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Jawher"/>
+    <untitled-ontology-9:was_published_by rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Zied"/>
   </owl:NamedIndividual>
   <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#evenement">
     <untitled-ontology-9:was_orgonised_by rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Arij"/>
+  </owl:NamedIndividual>
+  <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Post_1698838790221">
+    <untitled-ontology-9:id rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+    >3</untitled-ontology-9:id>
+    <untitled-ontology-9:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime"
+    >Mon Oct 30 11:39:00 WAT 2023</untitled-ontology-9:date>
+    <untitled-ontology-9:title>dev</untitled-ontology-9:title>
+    <untitled-ontology-9:nomUser>Zied Mathlouthi</untitled-ontology-9:nomUser>
+    <untitled-ontology-9:contenu>testing </untitled-ontology-9:contenu>
+    <rdf:type rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Post"/>
   </owl:NamedIndividual>
   <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Congratulation_for_your_friends_zied">
     <untitled-ontology-9:was_published_by rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Jawher"/>
     <untitled-ontology-9:was_liked_by rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Sadok"/>
     <rdf:type rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Comment"/>
+  </owl:NamedIndividual>
+  <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Post_1698840027331">
+    <untitled-ontology-9:id rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+    >16</untitled-ontology-9:id>
+    <untitled-ontology-9:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime"
+    >Mon Oct 30 12:00:00 WAT 2023</untitled-ontology-9:date>
+    <untitled-ontology-9:contenu>aaaaa</untitled-ontology-9:contenu>
+    <untitled-ontology-9:nomUser>aaaaa</untitled-ontology-9:nomUser>
+    <untitled-ontology-9:title>aaaaa</untitled-ontology-9:title>
+    <rdf:type rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Post"/>
   </owl:NamedIndividual>
   <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Habibi_Come_To_Dubai">
     <untitled-ontology-9:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime"
@@ -552,6 +573,10 @@
     <untitled-ontology-9:was_published_by rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Zied"/>
     <rdf:type rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Post"/>
   </owl:NamedIndividual>
+  <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Reclamation_1698841115105">
+    <untitled-ontology-9:id rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+    >33</untitled-ontology-9:id>
+  </owl:NamedIndividual>
   <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Hashtag">
     <untitled-ontology-9:description rdf:datatype="http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
     >#GazaUnderAttack</untitled-ontology-9:description>
@@ -560,6 +585,15 @@
     <untitled-ontology-9:was_commented_by rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Sadok"/>
     <rdf:type rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Comment"/>
   </owl:NamedIndividual>
+  <untitled-ontology-9:Post rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Post_1698845668960">
+    <untitled-ontology-9:nomUser>Zied Mathlouthi</untitled-ontology-9:nomUser>
+    <untitled-ontology-9:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime"
+    >Mon Oct 30 13:34:00 WAT 2023</untitled-ontology-9:date>
+    <untitled-ontology-9:contenu>aaaaaaaaaaaaaaa</untitled-ontology-9:contenu>
+    <untitled-ontology-9:title>developer</untitled-ontology-9:title>
+    <untitled-ontology-9:id rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+    >3</untitled-ontology-9:id>
+  </untitled-ontology-9:Post>
   <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Opinion">
     <untitled-ontology-9:description>jawkom behi</untitled-ontology-9:description>
     <untitled-ontology-9:was_commented_on rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Welcome_Post"/>
@@ -569,6 +603,10 @@
   <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Coffee">
     <untitled-ontology-9:was_orgonised_by rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Sadok"/>
     <rdf:type rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#OnSiteEvent"/>
+  </owl:NamedIndividual>
+  <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#User_1698842844799">
+    <untitled-ontology-9:id rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+    >23</untitled-ontology-9:id>
   </owl:NamedIndividual>
   <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Another_One">
     <untitled-ontology-9:description>Hello Everyone</untitled-ontology-9:description>
@@ -594,5 +632,9 @@
     <untitled-ontology-9:email>yassine.mathlouthi@esprit.tn</untitled-ontology-9:email>
     <untitled-ontology-9:is_member_in rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Security"/>
     <rdf:type rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#User"/>
+  </owl:NamedIndividual>
+  <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Post_1698838631692">
+    <untitled-ontology-9:id rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+    >3</untitled-ontology-9:id>
   </owl:NamedIndividual>
 </rdf:RDF>
