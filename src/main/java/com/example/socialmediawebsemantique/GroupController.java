@@ -190,10 +190,10 @@ public class GroupController {
         String nameURI = NS + "name";
         String idURI = NS + "id";
 
-        // Create an individual for the new event with the appropriate URI
+        // Create an individual for the new group with the appropriate URI
         Individual newGroup = ontModel.createIndividual(groupURI, ontModel.createClass(NS + "Group"));
 
-        // Set the properties of the event using the correct URIs
+        // Set the properties of the group using the correct URIs
         newGroup.addProperty(ontModel.getProperty(idURI), ontModel.createTypedLiteral(id, XSDDatatype.XSDinteger));
         newGroup.addProperty(ontModel.getProperty(nameURI), name);
         newGroup.addProperty(ontModel.getProperty(capacityURI), ontModel.createTypedLiteral(capacity, XSDDatatype.XSDinteger));
@@ -210,9 +210,126 @@ public class GroupController {
         return ResponseEntity.status(HttpStatus.OK).body("Group created successfully.");
     }
 
-    // Generate a unique ID for the new event
+    // Generate a unique ID for the new group
     private String generateUniqueID() {
         return String.valueOf(System.currentTimeMillis());
+    }
+    @GetMapping("/getGroupById")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<String> getGroupById(@RequestParam("id") Integer id) {
+        // Load RDF data from a file
+        Model model = jenaEngine.readModel("data/oneZero.owl");
+
+        // Create an OntModel for inferencing with the correct namespace
+        String NS = "http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#";
+        OntModel ontModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM_RULE_INF, model);
+
+        // Define the properties and URIs to retrieve
+
+        String dateURI = NS + "date";
+        String nameURI = NS + "name";
+        String capacityURI = NS + "capacity";
+
+
+        // Find the individual by its ID
+        // Find the individual by its ID
+        String sparqlFindQuery = "SELECT ?name ?capacity ?date  WHERE { " +
+                "?Group <" + NS + "id> ?id. " +
+                "  FILTER (?id = " + id + ")" +
+                "?Group <" + nameURI + "> ?name. " +
+                "?Group <" + capacityURI + "> ?capacity. " +
+                "?Group <" + dateURI + "> ?date. " +
+
+                "}";
+
+
+
+        QueryExecution findQueryExec = QueryExecutionFactory.create(sparqlFindQuery, ontModel);
+        ResultSet findResults = findQueryExec.execSelect();
+
+        if (findResults.hasNext()) {
+            // Individual with the specified ID exists, retrieve its data
+            QuerySolution solution = findResults.next();
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.put("name", solution.get("name").toString());
+            jsonObject.put("capacity", solution.get("capacity").toString());
+            jsonObject.put("date", solution.get("date").toString());
+
+
+            // Convert the JSON to a string
+            String jsonResult = jsonObject.toString();
+            return ResponseEntity.status(HttpStatus.OK).body(jsonResult);
+        } else {
+            // Individual with the specified ID doesn't exist
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Group with ID " + id + " not found.");
+        }
+    }
+    @PutMapping("/updateGroup")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<String> updateGroup(@RequestBody GroupModel groupRequest, @RequestParam("id") Integer id) {
+        // Load RDF data from a file
+        Model model = jenaEngine.readModel("data/oneZero.owl");
+
+        // Create an OntModel for inferencing with the correct namespace
+        String NS = "http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#";
+        OntModel ontModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM_RULE_INF, model);
+
+        // Define the properties and URIs to update
+        String dateURI = NS + "date";
+        String nameURI = NS + "name";
+        String capacityURI = NS + "capacity";
+
+
+        // Use a prepared SPARQL query to avoid injection vulnerabilities and improve readability
+        String sparqlFindQuery = String.format(
+                "SELECT ?Group WHERE { ?Group <%s> ?id. FILTER (?id = %d) }",
+                NS + "id",
+                id
+        );
+
+        QueryExecution findQueryExec = QueryExecutionFactory.create(sparqlFindQuery, ontModel);
+        ResultSet findResults = findQueryExec.execSelect();
+
+        if (findResults.hasNext()) {
+            // Individual with the specified ID exists, proceed with the update
+            Individual existingGroup = ontModel.getIndividual(findResults.next().getResource("Group").getURI());
+
+            // Extract the data to update from the request
+            String newName = groupRequest.getName();
+            Integer newCapacity = groupRequest.getCapacity();
+            String newDateString = groupRequest.getDate();
+
+
+            // Parse the new date
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+            try {
+                Date newDate = dateFormat.parse(newDateString);
+                Literal newDateLiteral = ontModel.createTypedLiteral(newDate, XSDDatatype.XSDdateTime);
+
+                // Update the properties of the existing group
+                existingGroup.setPropertyValue(ontModel.getProperty(nameURI), ontModel.createLiteral(newName));
+                existingGroup.setPropertyValue(ontModel.getProperty(capacityURI), ontModel.createTypedLiteral(newCapacity, XSDDatatype.XSDinteger));;
+
+                existingGroup.setPropertyValue(ontModel.getProperty(dateURI), newDateLiteral);
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid date format.");
+            }
+
+            // Save the updated RDF model
+            try (OutputStream outputStream = Files.newOutputStream(Paths.get("data/oneZero.owl"))) {
+                ontModel.write(outputStream, "RDF/XML-ABBREV");
+            } catch (IOException e) {
+                e.printStackTrace();
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update the group.");
+            }
+
+            return ResponseEntity.status(HttpStatus.OK).body("Group updated successfully.");
+        } else {
+            // Individual with the specified ID doesn't exist
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Group with ID " + id + " not found.");
+        }
     }
 
 
