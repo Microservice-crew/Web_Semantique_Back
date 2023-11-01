@@ -1,6 +1,7 @@
 <rdf:RDF
     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
     xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:j.0="http://jena.hpl.hp.com/2005/11/Assembler#"
     xmlns="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9/"
     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
     xmlns:untitled-ontology-9="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#"
@@ -45,6 +46,7 @@
   <owl:Class rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Like">
     <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#React"/>
   </owl:Class>
+  <owl:Class rdf:about="http://jena.hpl.hp.com/2005/11/Assembler#Event"/>
   <owl:Class rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Group">
     <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Inclusify"/>
   </owl:Class>
@@ -385,7 +387,14 @@
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
   </untitled-ontology-9:Post>
   <untitled-ontology-9:OnSiteEvent rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#onsiteParty">
+    <untitled-ontology-9:type>Online</untitled-ontology-9:type>
+    <untitled-ontology-9:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime"
+    >Mon May 12 11:00:00 WAT 2014</untitled-ontology-9:date>
     <untitled-ontology-9:was_orgonised_by rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Zied"/>
+    <untitled-ontology-9:title>zz</untitled-ontology-9:title>
+    <untitled-ontology-9:description>zzz</untitled-ontology-9:description>
+    <untitled-ontology-9:id rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+    >12</untitled-ontology-9:id>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
   </untitled-ontology-9:OnSiteEvent>
   <untitled-ontology-9:ReplyReclam rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#ReclamAnswer">
@@ -408,6 +417,16 @@
     <untitled-ontology-9:description>Well recieved</untitled-ontology-9:description>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
   </untitled-ontology-9:ReplyReclam>
+  <untitled-ontology-9:Event rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Event_1698794709453">
+    <untitled-ontology-9:type>aez</untitled-ontology-9:type>
+    <untitled-ontology-9:title>zeae</untitled-ontology-9:title>
+    <untitled-ontology-9:description>aze</untitled-ontology-9:description>
+    <untitled-ontology-9:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime"
+    >Tue Nov 07 23:25:00 WAT 2023</untitled-ontology-9:date>
+    <untitled-ontology-9:id rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+    >1</untitled-ontology-9:id>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+  </untitled-ontology-9:Event>
   <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#EVENT">
     <untitled-ontology-9:was_orgonised_by rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Zied"/>
   </owl:NamedIndividual>
