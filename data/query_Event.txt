@@ -2,6 +2,7 @@ PREFIX ns: <http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
 SELECT *
+
 WHERE {
   ?Event rdf:type ns:Event;
         ns:id ?id;
@@ -12,5 +13,6 @@ WHERE {
   FILTER (?titleParam != "" && ?title = ?titleParam)
   FILTER regex(?attribute, ?regexParam, "i")
 } ORDER BY ?Type (?orderBy)
+
 
 
