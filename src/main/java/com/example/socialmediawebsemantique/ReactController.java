@@ -4,6 +4,8 @@ import com.example.socialmediawebsemantique.tools.jenaEngine;
 import org.apache.jena.atlas.json.JsonArray;
 import org.apache.jena.atlas.json.JsonObject;
 
+import org.apache.jena.datatypes.xsd.XSDDatatype;
+import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.query.*;
@@ -19,7 +21,10 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.stream.StreamSupport;
 
 
@@ -260,7 +265,7 @@ public class ReactController {
 
 
     // Supprimer une reaction par ID en utilisant une requête SPARQL
-    @DeleteMapping("/deleteReact")
+   /* @DeleteMapping("/deleteReact")
     @CrossOrigin(origins = "*")
     public ResponseEntity<String> deleteReact(@RequestParam("id") Integer id) {
         // Charger les données RDF depuis un fichier
@@ -274,12 +279,14 @@ public class ReactController {
                 "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
                 "DELETE {\n" +
                 "?React rdf:type ns:React;\n" +
+                "ns:id ?id;\n" +
                 "ns:title ?title;\n" +
                 "ns:date ?date;\n" +
                 "ns:nombrelike ?nombrelike;\n" +
                 "ns:nombredislike ?nombredislike;\n" +
                 "} WHERE {\n" +
                 "  ?React rdf:type ns:React;\n" +
+                "         ns:id ?id;\n" +
                 "ns:title ?title;\n" +
                 "ns:date ?date;\n" +
                 "ns:nombrelike ?nombrelike;\n" +
@@ -303,31 +310,113 @@ public class ReactController {
         }
 
         return ResponseEntity.status(HttpStatus.OK).body("Reaction supprimé avec succès.");
-    }
+    }*/
 
 
-   /* @DeleteMapping("/React/{title}")
+    //Delete Post
+    // Supprimer un post par title en utilisant une requête SPARQL
+    @DeleteMapping("/deleteReact")
     @CrossOrigin(origins = "*")
-    public ResponseEntity<String> deleteReactByTitle(@RequestParam("title") String title) {
-        try {
-            // Construisez une requête SPARQL pour rechercher la réaction par le titre
-            String queryString = "PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
-                    + "PREFIX your_prefix: <http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#>"
-                    + "DELETE WHERE { "
-                    + "?react rdf:<http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#>:Reaction ; "
-                    + "       <http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#>:title ?title . "
-                    + "FILTER (str(?title) = '" + title + "') }";
+    public ResponseEntity<String> deleteReact(@RequestParam("title") String title) {
+        // Charger les données RDF depuis un fichier
+        Model model = jenaEngine.readModel("data/oneZero.owl");
 
-            // Exécutez la requête de suppression sur votre modèle
-            UpdateAction.parseExecute(queryString, model);
+        // Créer un modèle Ont qui effectue des inférences
+        OntModel ontModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM_RULE_INF, model);
 
-            return ResponseEntity.ok("Réaction avec le titre '" + title + "' supprimée avec succès");
-        } catch (Exception e) {
-            // Capturez toute exception et renvoyez un statut d'erreur
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erreur lors de la suppression de la réaction : " + e.getMessage());
+        // Construire la requête SPARQL pour supprimer l'individu par ID
+        String sparqlDeleteQuery = "PREFIX ns: <http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#>\n" +
+                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                "DELETE {\n" +
+                "  ?React rdf:type ns:React;\n" +
+                "         ns:id ?id;\n" +
+                "         ns:title ?title;\n" +
+                "         ns:nombrelike ?nombrelike;\n" +
+                "         ns:nombredislike ?nombredislike;\n" +
+                "         ns:date ?date;\n" +
+                "} WHERE {\n" +
+                "  ?React rdf:type ns:React;\n" +
+                "         ns:id ?id;\n" +
+                "         ns:title ?title;\n" +
+                "         ns:nombrelike ?nombrelike;\n" +
+                "         ns:nombredislike ?nombredislike;\n" +
+                "         ns:date ?date;\n" +
+                "FILTER (?title = \"" + title + "\")\n" +
+                "}\n";
+
+        System.out.println(sparqlDeleteQuery);
+
+
+
+        // Exécuter la requête SPARQL pour supprimer l'individu
+        UpdateAction.parseExecute(sparqlDeleteQuery, ontModel);
+
+        // Enregistrer le modèle RDF mis à jour
+        try (OutputStream outputStream = Files.newOutputStream(Paths.get("data/oneZero.owl"))) {
+            ontModel.write(outputStream, "RDF/XML-ABBREV");
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Échec de la suppression de la Reaction.");
         }
+
+        return ResponseEntity.status(HttpStatus.OK).body("React supprimé avec succès.");
     }
-*/
+
+
+    @PostMapping("/createReact")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<String> createReact(@RequestBody ReactModel reactRequest) throws ParseException {
+        // Extract data from the EventRequest object
+        Integer id = reactRequest.getId();
+        String title = reactRequest.getTitle();
+        Integer nombrelike = reactRequest.getNombrelike();
+        Integer nombredislike = reactRequest.getNombredislike();
+        String dateString = reactRequest.getDate();
+
+        // Load RDF data from a file
+        Model model = jenaEngine.readModel("data/oneZero.owl");
+
+        // Create an OntModel for inferencing with the correct namespace
+        String NS = "http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#";
+        OntModel ontModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM_RULE_INF, model);
+
+        // Parse the date from the string
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        Date date = dateFormat.parse(dateString);
+
+        // Create the RDF properties using the correct URIs
+        String eventURI = NS + "React_" + generateUniqueID();
+        String dateURI = NS + "date";
+        String nombrelikeURI = NS + "nombrelike";
+        String titleURI = NS + "title";
+        String idURI = NS + "id";
+        String nombredislikeURI = NS + "nombredislike";
+
+        // Create an individual for the new event with the appropriate URI
+        Individual newReact = ontModel.createIndividual(eventURI, ontModel.createClass(NS + "React"));
+
+        // Set the properties of the event using the correct URIs
+        newReact.addProperty(ontModel.getProperty(idURI), ontModel.createTypedLiteral(id, XSDDatatype.XSDinteger));
+        newReact.addProperty(ontModel.getProperty(titleURI), title);
+        newReact.addProperty(ontModel.getProperty(nombrelikeURI),  ontModel.createTypedLiteral(nombrelike, XSDDatatype.XSDinteger));
+        newReact.addProperty(ontModel.getProperty(dateURI), ontModel.createTypedLiteral(date, XSDDatatype.XSDdateTime));
+        newReact.addProperty(ontModel.getProperty(nombredislikeURI),  ontModel.createTypedLiteral(nombredislike, XSDDatatype.XSDinteger));
+
+        // Save the updated RDF model
+        try (OutputStream outputStream = Files.newOutputStream(Paths.get("data/oneZero.owl"))) {
+            ontModel.write(outputStream, "RDF/XML-ABBREV");
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to create the react.");
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body("React created successfully.");
+    }
+
+    // Generate a unique ID for the new event
+    private String generateUniqueID() {
+        return String.valueOf(System.currentTimeMillis());
+    }
 
 
 

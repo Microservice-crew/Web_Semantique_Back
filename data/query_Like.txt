@@ -7,6 +7,7 @@ PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 SELECT *
 WHERE{
 	?Like rdf:type ns:Like;
+	    ns:id ?id;
 		ns:title ?title;
         ns:date ?date;
         ns:nombrelike ?nombrelike;
