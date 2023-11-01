@@ -1,24 +1,29 @@
 package com.example.socialmediawebsemantique.tools;
 
+import java.io.File;
+import java.io.InputStream;
+import java.util.List;
 import org.apache.jena.query.*;
-import org.apache.jena.rdf.model.InfModel;
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.*;
 import org.apache.jena.reasoner.rulesys.GenericRuleReasoner;
 import org.apache.jena.reasoner.rulesys.Rule;
 import org.apache.jena.util.FileManager;
-
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.List;
-
+/**
+ *
+ * @author DO.ITSUDPARIS
+ */
 
 public class jenaEngine {
+    static private String RDF = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
 
-
-
+    /**
+     * Charger un mod�le � partir d�un fichier owl
+     * @param
+     * + Entree: le chemin vers le fichier owl
+     * + Sortie: l'objet model jena
+     */
     static public Model readModel(String inputDataFile) {
 // create an empty model
         Model model = ModelFactory.createDefaultModel();
@@ -26,11 +31,12 @@ public class jenaEngine {
 // use the FileManager to find the input file
         InputStream in = FileManager.get().open(inputDataFile);
         if (in == null) {
-            System.out.println("Ontology file: " + inputDataFile + " not found");
+            System.out.println("Ontology file: " + inputDataFile + "not found");
             return null;
         }
 // read the RDF/XML file
         model.read(in, "");
+
         try {
             in.close();
         } catch (IOException e) {
@@ -39,9 +45,15 @@ public class jenaEngine {
         }
         return model;
     }
-
-    static public Model readInferencedModelFromRuleFile(Model model, String
-            inputRuleFile) {
+    /**
+     * Faire l'inference
+     * @param
+     * + Entree: l'objet model Jena avec le chemin du fichier de
+    regles
+     * + Sortie: l'objet model infere Jena
+     */
+    static public Model readInferencedModelFromRuleFile(Model model,
+                                                        String inputRuleFile) {
         InputStream in = FileManager.get().open(inputRuleFile);
         if (in == null) {
             System.out.println("Rule File: " + inputRuleFile + " not found");
@@ -55,7 +67,8 @@ public class jenaEngine {
             }
         }
         List rules = Rule.rulesFromURL(inputRuleFile);
-        GenericRuleReasoner reasoner = new GenericRuleReasoner(rules);
+        GenericRuleReasoner reasoner = new
+                GenericRuleReasoner(rules);
         reasoner.setDerivationLogging(true);
         reasoner.setOWLTranslation(true); // not needed in RDFS case
         reasoner.setTransitiveClosureCaching(true);
@@ -63,15 +76,24 @@ public class jenaEngine {
         return inf;
     }
 
-    static public String executeQuery(Model model, String queryString) {
+    /**
+     * Executer une requete
+     * @param
+     * + Entree: l'objet model Jena avec une chaine des caracteres
+    SparQL
+     * + Sortie: le resultat de la requete en String
+     */
+    static public OutputStream executeQuery(Model model, String
+            queryString) {
         Query query = QueryFactory.create(queryString);
 // No reasoning
 // Execute the query and obtain results
-        QueryExecution qe = QueryExecutionFactory.create(query, model);
+        QueryExecution qe = QueryExecutionFactory.create(query,
+
+                model);
         ResultSet results = qe.execSelect();
         OutputStream output = new OutputStream() {
             private StringBuilder string = new StringBuilder();
-            @Override
             public void write(int b) throws IOException {
                 this.string.append((char) b);
             }
@@ -80,11 +102,18 @@ public class jenaEngine {
                 return this.string.toString();
             }
         };
-        ResultSetFormatter.out(output, results, query);
-        return output.toString();
+        ResultSetFormatter.outputAsJSON(output, results);
+        return output;
     }
-
-    static public String executeQueryFile(Model model, String filepath) {
+    /**
+     * Executer un fichier d'une requete
+     * @param
+     * + Entree: l'objet model Jena avec une chaine des caracteres
+    SparQL
+     * + Sortie: le resultat de la requete en String
+     */
+    static public OutputStream executeQueryFile(Model model, String
+            filepath) {
         File queryFile = new File(filepath);
 // use the FileManager to find the input file
         InputStream in = FileManager.get().open(filepath);
@@ -102,7 +131,4 @@ public class jenaEngine {
         String queryString = fileTool.getContents(queryFile);
         return executeQuery(model, queryString);
     }
-
-
-
 }
