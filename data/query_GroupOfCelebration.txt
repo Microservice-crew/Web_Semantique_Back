@@ -4,7 +4,9 @@ PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 SELECT *
 WHERE{
 	?GroupOfCelebration rdf:type ns:GroupOfCelebration;
-	ns:idGroup ?idGroup;
-	ns:nameGroupOfCelebration ?nameGroupOfCelebration;
-    ns:description ?description;
+	ns:id ?id;
+	ns:name ?name;
+            ns:date ?date;
+            ns:capacity ?capacity;
+            FILTER (?nameParam != "" && ?name = ?nameParam)
 }

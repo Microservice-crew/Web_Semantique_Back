@@ -2,9 +2,11 @@ PREFIX ns: <http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
 SELECT *
-WHERE{
-	?Group rdf:type ns:Group;
-	ns:idGroup ?idGroup;
-	ns:nameGroup ?nameGroup;
-    ns:description ?description;
+WHERE {
+    ?Group rdf:type ns:Group;
+    ns:id ?id;
+    	ns:name ?name;
+        ns:date ?date;
+        ns:capacity ?capacity;
+        FILTER (?nameParam != "" && ?name = ?nameParam)
 }
