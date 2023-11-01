@@ -105,7 +105,12 @@ public class controller {
     @GetMapping("/EventSearch")
     @CrossOrigin(origins = "*")
     public String getEvents(
-            @RequestParam(value = "domain", required = false) String domain
+            @RequestParam(value = "domain", required = false) String domain,
+            @RequestParam(value = "Type", required = false) String Type,
+            @RequestParam(value = "orderBy", required = false) String orderBy,
+            @RequestParam (value = "attribute" ,required = false) String attribute,
+            @RequestParam (value = "regexParam" , required = false) String regexParam
+
 
     ) {
         String NS = "";
@@ -136,6 +141,22 @@ public class controller {
                 // If domain is not provided, remove the parameter and the FILTER condition from the query
                 queryStr = queryStr.replace("FILTER (?titleParam != \"\" && ?title = ?titleParam)", "");
             }
+
+            if (orderBy != null && !orderBy.isEmpty() && Type != null && !Type.isEmpty()
+                    && (Type.toUpperCase().equals("ASC") || Type.toUpperCase().equals("DESC"))) {
+                queryStr = queryStr.replace("?orderBy",  '?'+orderBy.toLowerCase() );
+                queryStr = queryStr.replace("?Type",  Type.toUpperCase() );
+            } else {
+                queryStr = queryStr.replace("ORDER BY ?Type(?orderBy)", "");
+            }
+
+            if (regexParam != null && !regexParam.isEmpty() && attribute != null && !attribute.isEmpty()) {
+                queryStr = queryStr.replace("?regexParam", '\"' + regexParam + '\"');
+                queryStr = queryStr.replace("?attribute",  '?'+attribute.toLowerCase() );
+            } else {
+                queryStr = queryStr.replace("FILTER regex(?attribute, ?regexParam, \"i\")", "");
+            }
+
 
             System.out.println(queryStr);
             // Execute the query
@@ -327,6 +348,7 @@ System.out.println(sparqlDeleteQuery);
                 // Update the properties of the existing event
                 existingEvent.setPropertyValue(ontModel.getProperty(titleURI), ontModel.createLiteral(newTitle));
                 existingEvent.setPropertyValue(ontModel.getProperty(descriptionURI), ontModel.createLiteral(newDescription));
+
                 existingEvent.setPropertyValue(ontModel.getProperty(dateURI), newDateLiteral);
                 existingEvent.setPropertyValue(ontModel.getProperty(typeURI), ontModel.createLiteral(newType));
             } catch (ParseException e) {
