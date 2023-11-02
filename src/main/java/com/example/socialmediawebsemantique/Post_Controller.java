@@ -433,51 +433,7 @@ public class Post_Controller {
     //Post ById :
 
 
-    @GetMapping("/getPostById")
-    @CrossOrigin(origins = "*")
-    public ResponseEntity<String> getPostById(@RequestParam("id") Integer id) {
-        // Load RDF data from a file
-        Model model = jenaEngine.readModel("data/oneZero.owl");
-        // Create an OntModel for inferencing with the correct namespace
-        String NS = "http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#";
-        OntModel ontModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM_RULE_INF, model);
-        // Define the properties and URIs to retrieve
 
-        String dateURI = NS + "date";
-        String nomUserURI = NS + "nomUser";
-        String titleURI = NS + "title";
-        String contenuURI = NS + "contenu";
-        // Find the individual by its ID
-        // Find the individual by its ID
-        String sparqlFindQuery = "SELECT ?title ?contenu ?date ?nomUser WHERE { " +
-                "?Post <" + NS + "id> ?id. " +
-                "  FILTER (?id = " + id + ")" +
-                "?Post <" + titleURI + "> ?title. " +
-                "?Post <" + contenuURI + "> ?contenu. " +
-                "?Post <" + dateURI + "> ?date. " +
-                "?Post <" + nomUserURI + "> ?nomUser. " +
-                "}";
-
-        QueryExecution findQueryExec = QueryExecutionFactory.create(sparqlFindQuery, ontModel);
-        ResultSet findResults = findQueryExec.execSelect();
-
-        if (findResults.hasNext()) {
-            // Individual with the specified ID exists, retrieve its data
-            QuerySolution solution = findResults.next();
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.put("title", solution.get("title").toString());
-            jsonObject.put("contenu", solution.get("contenu").toString());
-            jsonObject.put("date", solution.get("date").toString());
-            jsonObject.put("nomUser", solution.get("nomUser").toString());
-
-            // Convert the JSON to a string
-            String jsonResult = jsonObject.toString();
-            return ResponseEntity.status(HttpStatus.OK).body(jsonResult);
-        } else {
-            // Individual with the specified ID doesn't exist
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Post with ID " + id + " not found.");
-        }
-    }
 
 
 }
