@@ -387,7 +387,6 @@ public class controller {
         String typeURI = NS + "type";
         String titleURI = NS + "title";
         String descriptionURI = NS + "description";
-
         // Find the individual by its ID
         // Find the individual by its ID
         String sparqlFindQuery = "SELECT ?title ?description ?date ?type WHERE { " +
@@ -398,8 +397,6 @@ public class controller {
                 "?Event <" + dateURI + "> ?date. " +
                 "?Event <" + typeURI + "> ?type. " +
                 "}";
-
-
 
         QueryExecution findQueryExec = QueryExecutionFactory.create(sparqlFindQuery, ontModel);
         ResultSet findResults = findQueryExec.execSelect();

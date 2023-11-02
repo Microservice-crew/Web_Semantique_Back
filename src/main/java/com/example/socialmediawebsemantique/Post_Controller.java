@@ -197,10 +197,6 @@ public class Post_Controller {
 
 
 
-
-
-
-
     //Delete Post
     // Supprimer un post par title en utilisant une requête SPARQL
     @DeleteMapping("/deletePost")
@@ -442,20 +438,15 @@ public class Post_Controller {
     public ResponseEntity<String> getPostById(@RequestParam("id") Integer id) {
         // Load RDF data from a file
         Model model = jenaEngine.readModel("data/oneZero.owl");
-
         // Create an OntModel for inferencing with the correct namespace
         String NS = "http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#";
         OntModel ontModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM_RULE_INF, model);
-
         // Define the properties and URIs to retrieve
-
-
 
         String dateURI = NS + "date";
         String nomUserURI = NS + "nomUser";
         String titleURI = NS + "title";
         String contenuURI = NS + "contenu";
-
         // Find the individual by its ID
         // Find the individual by its ID
         String sparqlFindQuery = "SELECT ?title ?contenu ?date ?nomUser WHERE { " +
@@ -466,8 +457,6 @@ public class Post_Controller {
                 "?Post <" + dateURI + "> ?date. " +
                 "?Post <" + nomUserURI + "> ?nomUser. " +
                 "}";
-
-
 
         QueryExecution findQueryExec = QueryExecutionFactory.create(sparqlFindQuery, ontModel);
         ResultSet findResults = findQueryExec.execSelect();

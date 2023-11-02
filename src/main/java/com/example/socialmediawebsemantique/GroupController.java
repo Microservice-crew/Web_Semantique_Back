@@ -80,6 +80,7 @@ public class GroupController {
 
                     // Extracting the corrected date
                     String dateString = solution.get("date").toString();
+                    jsonObject.put("date", dateString.split("\\^\\^")[0]);
                     try {
                         SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
                         Date dateObject = parser.parse(dateString.split("\\^\\^")[0]);

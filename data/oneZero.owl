@@ -414,6 +414,17 @@
     </untitled-ontology-9:was_published_by>
     <rdf:type rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Post"/>
   </owl:NamedIndividual>
+  <untitled-ontology-9:React rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#React_1698881614807">
+    <untitled-ontology-9:nombredislike rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+    >2</untitled-ontology-9:nombredislike>
+    <untitled-ontology-9:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime"
+    >Sun Oct 29 23:33:00 WAT 2023</untitled-ontology-9:date>
+    <untitled-ontology-9:nombrelike rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+    >119</untitled-ontology-9:nombrelike>
+    <untitled-ontology-9:title>FREE_PALESTINE</untitled-ontology-9:title>
+    <untitled-ontology-9:id rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+    >8</untitled-ontology-9:id>
+  </untitled-ontology-9:React>
   <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Med_amine">
     <untitled-ontology-9:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime"
     >2022:06-18T16:16:16</untitled-ontology-9:date>
@@ -554,6 +565,15 @@
     <untitled-ontology-9:was_liked_by rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Sadok"/>
     <rdf:type rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Comment"/>
   </owl:NamedIndividual>
+  <untitled-ontology-9:Group rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Group_1698881661477">
+    <untitled-ontology-9:id rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+    >11</untitled-ontology-9:id>
+    <untitled-ontology-9:name>MICROSERVICE</untitled-ontology-9:name>
+    <untitled-ontology-9:capacity rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+    >33</untitled-ontology-9:capacity>
+    <untitled-ontology-9:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime"
+    >Sun Oct 29 23:34:00 WAT 2023</untitled-ontology-9:date>
+  </untitled-ontology-9:Group>
   <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Post_1698840027331">
     <untitled-ontology-9:id rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
     >16</untitled-ontology-9:id>
@@ -564,6 +584,15 @@
     <untitled-ontology-9:title>aaaaa</untitled-ontology-9:title>
     <rdf:type rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Post"/>
   </owl:NamedIndividual>
+  <untitled-ontology-9:Event rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Event_1698881568921">
+    <untitled-ontology-9:id rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+    >3</untitled-ontology-9:id>
+    <untitled-ontology-9:title>testing event</untitled-ontology-9:title>
+    <untitled-ontology-9:description>aaaaaaaaaaaaaaa</untitled-ontology-9:description>
+    <untitled-ontology-9:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime"
+    >Sun Oct 29 23:32:00 WAT 2023</untitled-ontology-9:date>
+    <untitled-ontology-9:type>OnlineEvent</untitled-ontology-9:type>
+  </untitled-ontology-9:Event>
   <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Habibi_Come_To_Dubai">
     <untitled-ontology-9:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime"
     >2023-05-17T15:00:00</untitled-ontology-9:date>
@@ -612,6 +641,26 @@
     <untitled-ontology-9:description>Hello Everyone</untitled-ontology-9:description>
     <rdf:type rdf:resource="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Post"/>
   </owl:NamedIndividual>
+  <untitled-ontology-9:Group rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Group_1698881696788">
+    <untitled-ontology-9:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime"
+    >Sun Sep 24 23:34:00 WAT 2023</untitled-ontology-9:date>
+    <untitled-ontology-9:capacity rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+    >23</untitled-ontology-9:capacity>
+    <untitled-ontology-9:name>DevOps</untitled-ontology-9:name>
+    <untitled-ontology-9:id rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+    >33</untitled-ontology-9:id>
+  </untitled-ontology-9:Group>
+  <untitled-ontology-9:React rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#React_1698881848119">
+    <untitled-ontology-9:nombredislike rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+    >3</untitled-ontology-9:nombredislike>
+    <untitled-ontology-9:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime"
+    >Sun Oct 29 23:37:00 WAT 2023</untitled-ontology-9:date>
+    <untitled-ontology-9:nombrelike rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+    >999</untitled-ontology-9:nombrelike>
+    <untitled-ontology-9:title>GAZA_UNDER_ATTACK</untitled-ontology-9:title>
+    <untitled-ontology-9:id rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+    >33</untitled-ontology-9:id>
+  </untitled-ontology-9:React>
   <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#bonjour_Zied_ena_sadok_nesstana_fik">
     <untitled-ontology-9:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime"
     >2023-10-30T23:37</untitled-ontology-9:date>
@@ -637,4 +686,13 @@
     <untitled-ontology-9:id rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
     >3</untitled-ontology-9:id>
   </owl:NamedIndividual>
+  <untitled-ontology-9:Event rdf:about="http://www.semanticweb.org/sadok/ontologies/2023/9/untitled-ontology-9#Event_1698881774691">
+    <untitled-ontology-9:id rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+    >40</untitled-ontology-9:id>
+    <untitled-ontology-9:title>Comping</untitled-ontology-9:title>
+    <untitled-ontology-9:description>Comping Tozeur </untitled-ontology-9:description>
+    <untitled-ontology-9:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime"
+    >Thu Nov 16 23:36:00 WAT 2023</untitled-ontology-9:date>
+    <untitled-ontology-9:type>OnsiteEvent</untitled-ontology-9:type>
+  </untitled-ontology-9:Event>
 </rdf:RDF>
