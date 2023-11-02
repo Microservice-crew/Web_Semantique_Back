@@ -84,7 +84,6 @@ public class ReclamationController {
 
         }
 
-        // Convert the JSON to a string
         String jsonResult = jsonArray.toString();
 
         System.out.println(jsonResult);
@@ -102,10 +101,9 @@ public class ReclamationController {
             @RequestParam(value = "domain", required = false) String domain
     ) {
         String NS = "";
-        // lire le model a partir d'une ontologie
+        
         JsonArray jsonArray = null;
         if (model != null) {
-            // lire le Namespace de l�ontologie
             NS = model.getNsPrefixURI("");
 
             // apply our rules on the owlInferencedModel
